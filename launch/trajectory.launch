@@ -1,0 +1,6 @@
+<launch>
+	<node name="traj" pkg="kuka_control" type="kuka_control_trajectory">
+		<param name="trajectory_file_name" value="/trajs/traj1.txt"/>
+	</node>	
+
+</launch>

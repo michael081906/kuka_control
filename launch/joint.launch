@@ -1,0 +1,25 @@
+<launch>
+	<node name="joint_controller" pkg="kuka_control" type="kuka_control_joint">
+		<param name="reflexx" value="true"/>		
+		<param name="manual" value="false"/>	
+		<param name="j1" value="0.5"/>	
+		<param name="j2" value="1.0"/>	
+		<param name="j3" value="0"/>	
+		<param name="j4" value="0.0"/>	
+		<param name="j5" value="0"/>	
+		<param name="j6" value="0"/>	
+		<param name="j7" value="0.0"/>	
+		<param name="roll" value="0.0"/>
+		<param name="pitch" value="0.0"/>
+		<param name="yaw" value="0.0"/>
+		<param name="x" value="0.3"/>
+		<param name="y" value="0"/>
+		<param name="z" value="1.12"/>
+	</node>
+	<node name="plan" pkg="kuka_control" type="kuka_control_planning">
+		<param name="plan_file_name" value="/trajs/plan1.txt"/>
+	</node>	
+    <node name="ref_genXYZ" pkg = "kuka_control" type="kuka_control_reflexx_traj">
+		<param name="external_plan" value = "true"/>
+	</node>
+</launch>
