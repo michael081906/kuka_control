@@ -2,6 +2,7 @@
 #include<trajectory_msgs/JointTrajectory.h> 
 #include<trajectory_msgs/JointTrajectoryPoint.h> 
 #include<geometry_msgs/Twist.h>
+#include<iiwa_msgs/JointPosition.h>
 #include<sensor_msgs/JointState.h>
 #include<kdl/chain.hpp>
 #include "Eigen/Core"
@@ -137,6 +138,7 @@ int main(int argc, char * argv[]){
 
 	trajectory_msgs::JointTrajectory joint_cmd;
 	trajectory_msgs::JointTrajectoryPoint pt,pt2;
+    iiwa_msgs::JointPosition real_cmd;
 	initialize_points(pt,nj,0.0);
 	initialize_points(pt2,nj,0.0);
 	
@@ -171,6 +173,9 @@ int main(int argc, char * argv[]){
 	
 	// defining the puilsher that accepts joint position commands and applies them to the simulator
 	ros::Publisher cmd_pub = nh_.advertise<trajectory_msgs::JointTrajectory>("iiwa/PositionJointInterface_trajectory_controller/command",10);
+	// defining the puilsher that accepts joint position commands and applies them to the real kuka arm
+	ros::Publisher real_cmd_pub = nh_.advertise<iiwa_msgs::JointPosition>("/iiwa/command/JointPosition",10);
+
 	// debugging publishers
 	ros::Publisher dbg_pub = nh_.advertise<geometry_msgs::Twist>("mydbg",10);
 
@@ -215,7 +220,7 @@ int main(int argc, char * argv[]){
 
 	joint_cmd.points.push_back(pt);
 	//cmd.points.push_back(pt2);
-
+    bool real_robot = false;
 	while(ros::ok()){		
 		if (initialized){
 			// update the joint positions with the most recent readings from the joints
@@ -245,6 +250,12 @@ int main(int argc, char * argv[]){
 			joint_cmd.header.stamp = ros::Time::now();
 			cmd_pub.publish(joint_cmd);
 			dbg_pub.publish(xyz);			
+		}
+		if(real_robot){
+			real_cmd.header.stamp = ros::Time::now();
+			real_cmd.position.a1 = -0.5;
+			real_cmd.position.a2 = 0.9;
+			real_cmd_pub.publish(real_cmd);
 		}
 		loop_rate.sleep();
 		ros::spinOnce();

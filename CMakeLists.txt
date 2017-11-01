@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   trajectory_msgs
   std_msgs
+  iiwa_msgs
   roslib
 )
 find_package( Eigen3 REQUIRED )
