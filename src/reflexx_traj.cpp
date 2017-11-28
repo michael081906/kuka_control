@@ -70,7 +70,16 @@
 
 trajectory_msgs::JointTrajectory plan;
 bool plan_available = false;
+bool rob_pos_received = false;
 int number_of_points = 0;
+
+
+geometry_msgs::Twist rob_pos;
+
+void get_pos(const geometry_msgs::Twist & _data){
+	rob_pos = _data;
+	rob_pos_received = true;
+}
 
 void get_plan(const trajectory_msgs::JointTrajectory & _data){
 	plan = _data;
@@ -100,29 +109,29 @@ void initialize_plan(RMLPositionInputParameters  *_IP){
 		_IP->CurrentAccelerationVector->VecData  [5] =    plan.points[0].accelerations[5]      ;
 
 
-		_IP->MaxVelocityVector->VecData          [0] =    10      ;
-		_IP->MaxVelocityVector->VecData          [1] =    10      ;
-		_IP->MaxVelocityVector->VecData          [2] =    10      ;
-		_IP->MaxVelocityVector->VecData          [3] =    10      ;
-		_IP->MaxVelocityVector->VecData          [4] =    10      ;
-		_IP->MaxVelocityVector->VecData          [5] =    10      ;
+		_IP->MaxVelocityVector->VecData          [0] =    1      ;
+		_IP->MaxVelocityVector->VecData          [1] =    1      ;
+		_IP->MaxVelocityVector->VecData          [2] =    1      ;
+		_IP->MaxVelocityVector->VecData          [3] =    1      ;
+		_IP->MaxVelocityVector->VecData          [4] =    1      ;
+		_IP->MaxVelocityVector->VecData          [5] =    1      ;
 
 
-		_IP->MaxAccelerationVector->VecData      [0] =    50      ;
-		_IP->MaxAccelerationVector->VecData      [1] =    50      ;
-		_IP->MaxAccelerationVector->VecData      [2] =    50      ;
-		_IP->MaxAccelerationVector->VecData      [3] =    50      ;
-		_IP->MaxAccelerationVector->VecData      [4] =    50      ;
-		_IP->MaxAccelerationVector->VecData      [5] =    50      ;
+		_IP->MaxAccelerationVector->VecData      [0] =    5      ;
+		_IP->MaxAccelerationVector->VecData      [1] =    5      ;
+		_IP->MaxAccelerationVector->VecData      [2] =    5      ;
+		_IP->MaxAccelerationVector->VecData      [3] =    5      ;
+		_IP->MaxAccelerationVector->VecData      [4] =    5      ;
+		_IP->MaxAccelerationVector->VecData      [5] =    5      ;
 
 
 
-		_IP->MaxJerkVector->VecData              [0] =    100.0      ;
-		_IP->MaxJerkVector->VecData              [1] =    100.0      ;
-		_IP->MaxJerkVector->VecData              [2] =    100.0      ;
-		_IP->MaxJerkVector->VecData              [3] =    100.0      ;
-		_IP->MaxJerkVector->VecData              [4] =    100.0      ;
-		_IP->MaxJerkVector->VecData              [5] =    100.0      ;
+		_IP->MaxJerkVector->VecData              [0] =    10.0      ;
+		_IP->MaxJerkVector->VecData              [1] =    10.0      ;
+		_IP->MaxJerkVector->VecData              [2] =    10.0      ;
+		_IP->MaxJerkVector->VecData              [3] =    10.0      ;
+		_IP->MaxJerkVector->VecData              [4] =    10.0      ;
+		_IP->MaxJerkVector->VecData              [5] =    10.0      ;
 
 		//setting the target velcoity and positions
 		_IP->TargetPositionVector->VecData       [0] =   plan.points[1].positions[0]     ;
@@ -166,6 +175,7 @@ int main(int argc, char * argv[])
     ros::Publisher reflexxes_pub = nh_.advertise<geometry_msgs::Twist>("/reftraj",1);
 	
 	ros::Subscriber plan_sub = nh_.subscribe("/plan",1,get_plan);
+	ros::Subscriber pos_sub = nh_.subscribe("/robot/worldpos/" ,1, get_pos);
 
 
     geometry_msgs::Twist ref;
@@ -245,29 +255,29 @@ int main(int argc, char * argv[])
 		IP->CurrentAccelerationVector->VecData  [5] =    0.0      ;
 
 
-		IP->MaxVelocityVector->VecData          [0] =    10      ;
-		IP->MaxVelocityVector->VecData          [1] =    10      ;
-		IP->MaxVelocityVector->VecData          [2] =    10      ;
-		IP->MaxVelocityVector->VecData          [3] =    10      ;
-		IP->MaxVelocityVector->VecData          [4] =    10      ;
-		IP->MaxVelocityVector->VecData          [5] =    10      ;
+		IP->MaxVelocityVector->VecData          [0] =    1      ;
+		IP->MaxVelocityVector->VecData          [1] =    1      ;
+		IP->MaxVelocityVector->VecData          [2] =    1      ;
+		IP->MaxVelocityVector->VecData          [3] =    1      ;
+		IP->MaxVelocityVector->VecData          [4] =    1      ;
+		IP->MaxVelocityVector->VecData          [5] =    1      ;
 
 
-		IP->MaxAccelerationVector->VecData      [0] =    50      ;
-		IP->MaxAccelerationVector->VecData      [1] =    50      ;
-		IP->MaxAccelerationVector->VecData      [2] =    50      ;
-		IP->MaxAccelerationVector->VecData      [3] =    50      ;
-		IP->MaxAccelerationVector->VecData      [4] =    50      ;
-		IP->MaxAccelerationVector->VecData      [5] =    50      ;
+		IP->MaxAccelerationVector->VecData      [0] =    5      ;
+		IP->MaxAccelerationVector->VecData      [1] =    5      ;
+		IP->MaxAccelerationVector->VecData      [2] =    5      ;
+		IP->MaxAccelerationVector->VecData      [3] =    5      ;
+		IP->MaxAccelerationVector->VecData      [4] =    5      ;
+		IP->MaxAccelerationVector->VecData      [5] =    5      ;
 
 
 
-		IP->MaxJerkVector->VecData              [0] =    100.0      ;
-		IP->MaxJerkVector->VecData              [1] =    100.0      ;
-		IP->MaxJerkVector->VecData              [2] =    100.0      ;
-		IP->MaxJerkVector->VecData              [3] =    100.0      ;
-		IP->MaxJerkVector->VecData              [4] =    100.0      ;
-		IP->MaxJerkVector->VecData              [5] =    100.0      ;
+		IP->MaxJerkVector->VecData              [0] =    10.0      ;
+		IP->MaxJerkVector->VecData              [1] =    10.0      ;
+		IP->MaxJerkVector->VecData              [2] =    10.0      ;
+		IP->MaxJerkVector->VecData              [3] =    10.0      ;
+		IP->MaxJerkVector->VecData              [4] =    10.0      ;
+		IP->MaxJerkVector->VecData              [5] =    10.0      ;
 
 		//setting the target velcoity and positions
 		IP->TargetPositionVector->VecData       [0] =   0.2      ;
@@ -323,6 +333,16 @@ int main(int argc, char * argv[])
 				IP->TargetPositionVector->VecData       [3] =   plan.points[ctr % number_of_points].positions[3]      ;
 				IP->TargetPositionVector->VecData       [4] =   plan.points[ctr % number_of_points].positions[4]      ;
 				IP->TargetPositionVector->VecData       [5] =   plan.points[ctr % number_of_points].positions[5]     ;
+
+				if (rob_pos_received){
+					IP->CurrentPositionVector->VecData[0] = rob_pos.linear.x;
+					IP->CurrentPositionVector->VecData[1] = rob_pos.linear.y;
+					IP->CurrentPositionVector->VecData[2] = rob_pos.linear.z;
+					IP->CurrentPositionVector->VecData[3] = rob_pos.angular.x;
+					IP->CurrentPositionVector->VecData[4] = rob_pos.angular.y;
+					IP->CurrentPositionVector->VecData[5] = rob_pos.angular.z;
+				}
+			
 				ctr ++;
 				ResultValue =   RML->RMLPosition(       *IP
 					                                ,   OP
@@ -355,7 +375,7 @@ int main(int argc, char * argv[])
 			ref.angular.x = IP->CurrentPositionVector->VecData[3];
 			ref.angular.y = IP->CurrentPositionVector->VecData[4];
 			ref.angular.z = IP->CurrentPositionVector->VecData[5];
-		
+			
 			//dbg.angular.x = ctr;
 			reflexxes_pub.publish(ref);
 		

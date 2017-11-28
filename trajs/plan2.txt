@@ -1,0 +1,5 @@
+x		y		z		r		p		y		xdot	ydot	zdot	rdot	pdot	ydot	xddot	yddot	zddot	rddot	pddot	yddot
+0.0349	0.5729		0.790	+3.14		1.1416		-1.63		0		0		0		0		0		0		0		0		0		0		0		0
+0.006		-.495		.8	+3.13	.038		1.335		0		0		0		0		0		0		0		0		0		0		0		0
+
+

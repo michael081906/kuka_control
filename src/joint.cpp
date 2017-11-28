@@ -23,7 +23,7 @@ KDL::Chain LWR(){
 
   //base
   chain.addSegment(KDL::Segment(KDL::Joint(KDL::Joint::None),
-        KDL::Frame::DH_Craig1989(0,0,0.34065,0)));
+        KDL::Frame::DH_Craig1989(0,0,0.33989,0)));
 
   //joint 1
   chain.addSegment(KDL::Segment(KDL::Joint(KDL::Joint::RotZ),
@@ -31,7 +31,7 @@ KDL::Chain LWR(){
 
   //joint 2 
   chain.addSegment(KDL::Segment(KDL::Joint(KDL::Joint::RotZ),
-        KDL::Frame::DH_Craig1989(0,M_PI_2,0.4,0)));
+        KDL::Frame::DH_Craig1989(0,M_PI_2,0.40011,0)));
 
   //joint 3
   chain.addSegment(KDL::Segment(KDL::Joint(KDL::Joint::RotZ),
@@ -39,7 +39,7 @@ KDL::Chain LWR(){
 
   //joint 4
   chain.addSegment(KDL::Segment(KDL::Joint(KDL::Joint::RotZ),
-        KDL::Frame::DH_Craig1989(0, -M_PI_2,0.39,0)));
+        KDL::Frame::DH_Craig1989(0, -M_PI_2,0.40003,0)));
 
   //joint 5
   chain.addSegment(KDL::Segment(KDL::Joint(KDL::Joint::RotZ),
@@ -52,7 +52,8 @@ KDL::Chain LWR(){
   //joint 7 (with flange adapter)
   chain.addSegment(KDL::Segment(KDL::Joint(KDL::Joint::RotZ),
         //KDL::Frame::DH_Craig1989(0,0,0.098,0)));
-    KDL::Frame::DH_Craig1989(0,0,0.088,0))); //AS
+//    KDL::Frame::DH_Craig1989(0,0,0.088,0))); //AS
+KDL::Frame::DH_Craig1989(0,0,0.12597,0)));
 
   return chain;
 
@@ -177,7 +178,7 @@ int main(int argc, char * argv[]){
 	ros::Publisher real_cmd_pub = nh_.advertise<iiwa_msgs::JointPosition>("/iiwa/command/JointPosition",10);
 
 	// debugging publishers
-	ros::Publisher dbg_pub = nh_.advertise<geometry_msgs::Twist>("mydbg",10);
+	ros::Publisher xyzrpy_pub = nh_.advertise<geometry_msgs::Twist>("/robot/worldpos",10);
 
 
 	// subscriber for reading the joint angles from the gazebo simulator
@@ -246,10 +247,14 @@ int main(int argc, char * argv[]){
 				xyz.linear.x = cartpos.p[0];
 				xyz.linear.y = cartpos.p[1];
 				xyz.linear.z = cartpos.p[2];
+				cartpos.M.GetRPY(roll,pitch, yaw);
+				xyz.angular.x = roll;
+				xyz.angular.y = pitch;
+				xyz.angular.z = yaw;
 			}
 			joint_cmd.header.stamp = ros::Time::now();
 			cmd_pub.publish(joint_cmd);
-			dbg_pub.publish(xyz);			
+			xyzrpy_pub.publish(xyz);			
 		}
 		if(real_robot){
 			real_cmd.header.stamp = ros::Time::now();

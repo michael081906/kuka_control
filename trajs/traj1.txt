@@ -1,3 +1,3 @@
 start stop xs xsdot xsddot xf xfdot xfddot
-10.0 20.0 3.0 0.0 0.0 -8.0 0.0 0.0
+5 10.0		125 10 	0.0    	165	12	0
 
