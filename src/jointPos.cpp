@@ -1,6 +1,6 @@
 #include<ros/ros.h>
-#include<trajectory_msgs/JointTrajectory.h> 
-#include<trajectory_msgs/JointTrajectoryPoint.h> 
+#include<trajectory_msgs/JointTrajectory.h>
+#include<trajectory_msgs/JointTrajectoryPoint.h>
 #include<geometry_msgs/Twist.h>
 #include<iiwa_msgs/JointPosition.h>
 #include<sensor_msgs/JointState.h>
@@ -31,7 +31,7 @@ KDL::Chain LWR() {
       KDL::Segment(KDL::Joint(KDL::Joint::RotZ),
                    KDL::Frame::DH_Craig1989(0, -M_PI_2, 0, 0)));
 
-  //joint 2 
+  //joint 2
   chain.addSegment(
       KDL::Segment(KDL::Joint(KDL::Joint::RotZ),
                    KDL::Frame::DH_Craig1989(0, M_PI_2, 0.40011, 0)));

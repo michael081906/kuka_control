@@ -1,0 +1,5 @@
+<launch>
+	<node name="plan" pkg="kuka_control" type="kuka_control_planning">
+		<param name="plan_file_name" value="/trajs/plan1.txt"/>
+	</node>	
+</launch>
