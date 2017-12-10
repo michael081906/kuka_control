@@ -4,6 +4,7 @@
 #include<iostream>
 #include<trajectory_msgs/JointTrajectory.h> 
 #include<trajectory_msgs/JointTrajectoryPoint.h> 
+#include<tf/transform_datatypes.h>
 
 using namespace std;
 void check_files(ifstream& in_file,string& in_name){
@@ -33,7 +34,7 @@ int main(int argc, char * argv[]){
 		point.velocities.push_back(0.0);
 		point.accelerations.push_back(0.0);
 	}
-	// getting the name of the trajecotry parameter file and reading it (it should be in a .txt file)
+	// getting the name of the trajectory parameter file and reading it (it should be in a .txt file)
 	home.getParam("plan_file_name", plan_file_name);
 	plan_file_name = ros::package::getPath("kuka_control") + plan_file_name;
 	ifstream plan_file(plan_file_name.c_str(), ifstream::in);

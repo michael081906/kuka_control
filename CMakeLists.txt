@@ -204,5 +204,7 @@ target_link_libraries(kuka_control_joint ${catkin_LIBRARIES} orocos-kdl)
 add_executable(kuka_control_reflexx_traj src/reflexx_traj.cpp)
 target_link_libraries(kuka_control_reflexx_traj ${catkin_LIBRARIES} ReflexxesTypeII)
 
+add_executable(kuka_control_jointPos src/jointPos.cpp)
+target_link_libraries(kuka_control_jointPos ${catkin_LIBRARIES} orocos-kdl)
 
 
