@@ -1,13 +1,13 @@
 <launch>
 	<node name="joint_controller" pkg="kuka_control" type="kuka_control_joint">
-		<param name="reflexx" value="true"/>		
-		<param name="manual" value="false"/>	
+		<param name="reflexx" value="false"/>		
+		<param name="manual" value="true"/>	
 		<param name="j1" value="0"/>	
 		<param name="j2" value="0"/>	
 		<param name="j3" value="0"/>	
-		<param name="j4" value="0"/>	
+		<param name="j4" value="-1.57"/>	
 		<param name="j5" value="0.0"/>	
-		<param name="j6" value="0"/>	
+		<param name="j6" value="1.57"/>	
 		<param name="j7" value="0.0"/>	
 		<param name="roll" value="0.0"/>
 		<param name="pitch" value="0.0"/>
